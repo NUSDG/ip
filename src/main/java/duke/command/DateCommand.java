@@ -1,17 +1,12 @@
 package duke.command;
 
-import duke.task.Deadline;
-import duke.task.Event;
-import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
-
 import java.time.LocalDate;
 
 /**
  * Date command class to find all the tasks on a give date.
  */
-public class DateCommand extends Command {
+public class DateCommand extends Command{
     private LocalDate localDate;
 
     /**
@@ -29,28 +24,8 @@ public class DateCommand extends Command {
      * @param tasks The tasks to be executed.
      */
     @Override
-    public String execute(TaskList tasks) {
-//        tasks.printTasksOnSpecificDate(this.localDate);
-        int i = 0;
-        String response = "";
-        for (Task task : tasks.getTasks()) {
-            if (tasks.getTaskType(task).equals("Deadlines")) {
-                Deadline d = (Deadline) task;
-                if (d.getDate().equals(this.localDate)) {
-                    i = i + 1;
-                    response = response + i + "." + d + "\n";
-//                    System.out.println(i + "." + d);
-                }
-            } else if (tasks.getTaskType(task).equals("Events")) {
-                Event e = (Event) task;
-                if (e.getDate().equals(this.localDate)) {
-                    i = i + 1;
-                    response = response + i + "." + e + "\n";
-//                    System.out.println(i + "." + e);
-                }
-            }
-        }
-        return Ui.showTasksOnDateMessage(this.localDate) + response;
+    public void execute(TaskList tasks) {
+        tasks.printTasksOnSpecificDate(this.localDate);
     }
 
     /**

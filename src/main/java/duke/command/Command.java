@@ -7,13 +7,12 @@ import duke.task.TaskList;
  */
 public abstract class Command {
 
-
     /**
      * To execute the command.
+     *
      * @param tasks The tasks to be executed.
-     * @return The response from the bot
      */
-    public abstract String execute(TaskList tasks);
+    public abstract void execute(TaskList tasks);
 
     /**
      * @inheritDoc

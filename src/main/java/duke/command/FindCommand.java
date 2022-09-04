@@ -1,14 +1,12 @@
 package duke.command;
 
-import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
 
 /**
  * Find Command class to find class based on keyword.
  */
 public class FindCommand extends Command {
-    private String keyword;
+    private String Keyword;
 
     /**
      * Constructor for find command class.
@@ -16,7 +14,7 @@ public class FindCommand extends Command {
      * @param keyword Keyword to find.
      */
     public FindCommand(String keyword) {
-        this.keyword = keyword;
+        this.Keyword = keyword;
     }
 
     /**
@@ -25,18 +23,8 @@ public class FindCommand extends Command {
      * @param tasks The task to be executed.
      */
     @Override
-    public String execute(TaskList tasks) {
-        tasks.findTask(this.keyword);
-        int i = 0;
-        String response = "";
-        for (Task task : tasks.getTasks()) {
-            if (task.getDescription().toLowerCase().contains(this.keyword.toLowerCase())) {
-                i = i + 1;
-//                System.out.println(i + "." + task);
-                response = response  + i + "." + task + "\n";
-            }
-        }
-        return Ui.showFindTaskMessage(this.keyword) + response;
+    public void execute(TaskList tasks) {
+        tasks.findTask(this.Keyword);
     }
 
     /**

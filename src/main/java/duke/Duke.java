@@ -1,7 +1,6 @@
 package duke;
 
-import javafx.application.Platform;
-import javafx.animation.PauseTransition;
+import java.util.Scanner;
 
 import duke.command.Command;
 import duke.exception.DukeException;
@@ -9,7 +8,6 @@ import duke.parser.Parser;
 import duke.storage.Storage;
 import duke.task.TaskList;
 import duke.ui.Ui;
-import javafx.util.Duration;
 
 
 /**
@@ -33,22 +31,27 @@ public class Duke {
         }
     }
 
-    /**
-     * You should have your own function to generate a response to user input.
-     * Replace this stub with your completed method.
-     */
-    public String getResponse(String input) {
-        try {
-            Command c = Parser.parseCommand(input);
-            if (c.isExit()) {
-                PauseTransition delay = new PauseTransition(Duration.seconds(3));
-                delay.setOnFinished(event -> Platform.exit());
-                delay.play();
+    public static void main(String[] args) {
+        new Duke().run();
+    }
+
+    /** Runs the program. */
+    public void run () {
+        this.ui.showWelcomeMessage();
+        Scanner sc = new Scanner(System.in);
+        boolean isExit = false;
+        while (!isExit) {
+            try {
+                String fullCommand = sc.nextLine();
+                ui.showLine();
+                Command c = Parser.parseCommand(fullCommand);
+                c.execute(this.tasks);
+                isExit = c.isExit();
+            } catch (DukeException e) {
+                ui.showError(e);
+            } finally {
+                ui.showLine();
             }
-            String response = c.execute(this.tasks);
-            return response;
-        }catch (DukeException e) {
-                return ui.showError(e);
         }
     }
 }

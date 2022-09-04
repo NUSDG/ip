@@ -28,28 +28,29 @@ public class TaskList {
      */
     public void addTask(Task t)  {
         this.tasks.add(t);
-//        try {
-//            Storage.save(this.tasks);
-//        } catch (IOException e) {
-//            Ui.showError(e);
-//        }
+        try {
+            Storage.save(this.tasks);
+        } catch (IOException e) {
+            Ui.showError(e);
+        }
+        Ui.showAddTaskMessage(t, this.tasks.size());
     }
 
-//    /**
-//     * Method to add a task but without printing
-//     * the show message, this is for loading the
-//     * data from storage file.
-//     *
-//     * @param t The task to be added.
-//     */
-//    public void addTaskWithoutPrinting(Task t)  {
-//        this.tasks.add(t);
-////        try {
-////            Storage.save(this.tasks);
-////        } catch (IOException e) {
-////            Ui.showError(e);
-////        }
-//    }
+    /**
+     * Method to add a task but without printing
+     * the show message, this is for loading the
+     * data from storage file.
+     *
+     * @param t The task to be added.
+     */
+    public void addTaskWithoutPrinting(Task t)  {
+        this.tasks.add(t);
+        try {
+            Storage.save(this.tasks);
+        } catch (IOException e) {
+            Ui.showError(e);
+        }
+    }
 
     /**
      * Gets the task based on task number.
@@ -62,24 +63,6 @@ public class TaskList {
     }
 
     /**
-     * Gets all the tasks
-     *
-     * @return All the tasks in task list
-     */
-    public ArrayList<Task> getTasks() {
-        return this.tasks;
-    }
-
-    /**
-     * Gets the size of the tasks
-     *
-     * @return The size of the tasks
-     */
-    public int getSize() {
-        return this.tasks.size();
-    }
-
-    /**
      * Marks the task as done.
      *
      * @param taskNo The corresponding task ID.
@@ -87,6 +70,12 @@ public class TaskList {
     public void markTask(int taskNo) {
         Task task = this.getTask(taskNo);
         task.mark();
+        try {
+            Storage.save(this.tasks);
+        } catch (IOException e) {
+            Ui.showError(e);
+        }
+        Ui.markTaskMessage(task);
     }
 
     /**
@@ -97,6 +86,12 @@ public class TaskList {
     public void unMarkTask(int taskNo) {
         Task task = this.getTask(taskNo);
         task.unMark();
+        try {
+            Storage.save(this.tasks);
+        } catch (IOException e) {
+            Ui.showError(e);
+        }
+        Ui.unMarkTaskMessage(task);
     }
 
     /**
@@ -105,7 +100,14 @@ public class TaskList {
      * @param taskNo The corresponding task ID.
      */
     public void deleteTask(int taskNo) {
+        Task t = this.getTask(taskNo);
         this.tasks.remove(taskNo - 1);
+        try {
+            Storage.save(this.tasks);
+        } catch (IOException e) {
+            Ui.showError(e);
+        }
+        Ui.showDeleteTaskMessage(t, this.tasks.size());
     }
 
     /**
@@ -119,6 +121,31 @@ public class TaskList {
             if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 i = i + 1;
                 System.out.println(i + "." + task);
+            }
+        }
+    }
+
+    /**
+     * Prints tasks based on date.
+     *
+     * @param date Date to find.
+     */
+    public void printTasksOnSpecificDate(LocalDate date) {
+        Ui.showPrintTasksOnSpecificDateMessage(date);
+        int i = 0;
+        for (Task task : tasks) {
+            if (this.getTaskType(task).equals("Deadlines")) {
+                Deadline d = (Deadline) task;
+                if (d.getDate().equals(date)) {
+                    i = i + 1;
+                    System.out.println(i + "." + d);
+                }
+            } else if (this.getTaskType(task).equals("Events")) {
+                Event e = (Event) task;
+                if (e.getDate().equals(date)) {
+                    i = i + 1;
+                    System.out.println(i + "." + e);
+                }
             }
         }
     }
@@ -140,14 +167,14 @@ public class TaskList {
         return "Task";
     }
 
-//    /**
-//     * Prints all tasks in tasklist.
-//     */
-//    public void printList() {
-//        Ui.showPrintListMessage();
-//        int ListLength = tasks.size();
-//        for (int i = 0; i < ListLength; i++) {
-//            System.out.println((i + 1) + ". " + tasks.get(i));
-//        }
-//    }
+    /**
+     * Prints all tasks in tasklist.
+     */
+    public void printList() {
+        Ui.showPrintListMessage();
+        int ListLength = tasks.size();
+        for (int i = 0; i < ListLength; i++) {
+            System.out.println((i + 1) + ". " + tasks.get(i));
+        }
+    }
 }

@@ -1,16 +1,12 @@
 package duke.command;
 
-import duke.storage.Storage;
 import duke.task.Task;
 import duke.task.TaskList;
-import duke.ui.Ui;
-
-import java.io.IOException;
 
 /**
  * AddCommand class to add task to tasklist.
  */
-public class AddCommand extends Command {
+public class AddCommand extends Command{
     private final Task task;
 
     /**
@@ -26,17 +22,10 @@ public class AddCommand extends Command {
      * Adds task into the lastlist.
      *
      * @param tasks The tasks to be executed.
-     * @return The UI to be shown when a new task is added
      */
     @Override
-    public String execute(TaskList tasks) {
+    public void execute(TaskList tasks) {
         tasks.addTask(this.task);
-        try {
-            Storage.save(tasks.getTasks());
-        } catch (IOException e) {
-           return Ui.showError(e);
-        }
-        return Ui.showAddTaskMessage(this.task, tasks.getSize());
     }
 
     /**

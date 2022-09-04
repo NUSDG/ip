@@ -6,17 +6,16 @@ import duke.ui.Ui;
 /**
  * Bye command class to exit the program.
  */
-public class ByeCommand extends Command {
+public class ByeCommand extends Command{
 
     /**
      * Shows bye message.
      *
      * @param tasks Tasks to be executed.
-     * @return The good bye message
      */
     @Override
-    public String execute(TaskList tasks) {
-        return Ui.showByeMessage();
+    public void execute(TaskList tasks) {
+        Ui.showByeMessage();
     }
 
     /**
