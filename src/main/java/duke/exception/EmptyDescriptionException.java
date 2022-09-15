@@ -8,7 +8,7 @@ public class EmptyDescriptionException extends  DukeException{
     /**
      * Constructor for empty description exception.
      */
-    public EmptyDescriptionException(){
+    public EmptyDescriptionException() {
         super("☹ OOPS!!! The description of a todo cannot be empty.");
     }
 }
